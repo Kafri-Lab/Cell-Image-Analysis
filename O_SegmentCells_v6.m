@@ -69,7 +69,7 @@ for i=1:NumberOfImages
     if mod(i,10)==0
         for k=1:4
             if any(O.BW{k}(:))
-                figure(1);imshow(showseg_thick(NormalizeImage(O.IM{k}),O.BW{k},[1 0 0]))
+                figure(1);imshow(showseg_thick(mat2gray(O.IM{k}),O.BW{k},[1 0 0])) %Edited by Miriam 4/7/17
                print([Data.O.SegmentationParameters.OutputDir 'Dataset_' regexprep(Data.O.SegmentationParameters.DataSetName,'\W','_')  'RESULTS\ExampleImages\Image_c' num2str(k) '_Ind_' num2str(i)],'-dpng')
             end
         end

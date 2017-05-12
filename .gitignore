@@ -1,3 +1,7 @@
 temp/
 *.mat
 *.fig
+Thumbs.db
+Lkb1_Project
+*.avi
+*.png

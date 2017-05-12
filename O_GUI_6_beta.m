@@ -1,38 +1,37 @@
-
-function varargout = O_GUI_6(varargin)
-% O_GUI_6 MATLAB code for O_GUI_6.fig
-%       O_GUI_6, by itself, creates a new O_GUI_6 or raises the existing
+  function varargout = O_GUI_6_beta(varargin)
+% O_GUI_6_beta MATLAB code for O_GUI_6_beta.fig
+%       O_GUI_6_beta, by itself, creates a new O_GUI_6_beta or raises the existing
 %      singleton*.
 %
-%      H = O_GUI_6 returns the handle to a new O_GUI_6 or the handle to
+%      H = O_GUI_6_beta returns the handle to a new O_GUI_6_beta or the handle to
 %      the existing singleton*.
 %
-%      O_GUI_6('CALLBACK',hObject,eventData,handles,...) calls the local
-%      function named CALLBACK in O_GUI_6.M with the given input arguments.
+%      O_GUI_6_beta('CALLBACK',hObject,eventData,handles,...) calls the local
+%      function named CALLBACK in O_GUI_6_beta.M with the given input arguments.
 %
-%      O_GUI_6('Property','Value',...) creates a new O_GUI_6 or raises the 
+%      O_GUI_6_beta('Property','Value',...) creates a new O_GUI_6_beta or raises the
 %      existing singleton*.
 %Starting from the left, property value pairs are
-%      applied to the GUI before O_GUI_6_OpeningFcn gets called.  An
+%      applied to the GUI before O_GUI_6_beta_OpeningFcn gets called.  An
 %      unrecognized property name or invalid value makes property application
-%      stop.  All inputs are passed to O_GUI_6_OpeningFcn via varargin.
+%      stop.  All inputs are passed to O_GUI_6_beta_OpeningFcn via varargin.
 %
 %      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
 %      instance to run (singleton)".
 %
 % See also: GUIDE, GUIDATA, GUIHANDLES
 %
-% Edit the above text to modify the response to help O_GUI_6
+% Edit the above text to modify the response to help O_GUI_6_beta
 %
-% Last Modified by GUIDE v2.5 13-Aug-2016 21:05:09
+% Last Modified by GUIDE v2.5 13-Aug-2016 21:05:16
 %
 % Begin initialization code - DO NOT EDIT
 
 gui_Singleton = 1;
 gui_State = struct('gui_Name',       mfilename, ...
     'gui_Singleton',  gui_Singleton, ...
-    'gui_OpeningFcn', @O_GUI_6_OpeningFcn, ...
-    'gui_OutputFcn',  @O_GUI_6_OutputFcn, ...
+    'gui_OpeningFcn', @O_GUI_6_beta_OpeningFcn, ...
+    'gui_OutputFcn',  @O_GUI_6_beta_OutputFcn, ...
     'gui_LayoutFcn',  [] , ...
     'gui_Callback',   []);
 if nargin && ischar(varargin{1})
@@ -47,15 +46,15 @@ end
 % End initialization code - DO NOT EDIT
 
 
-% --- Executes just before O_GUI_6 is made visible.
-function O_GUI_6_OpeningFcn(hObject, eventdata, handles, varargin)
+% --- Executes just before O_GUI_6_beta is made visible.
+function O_GUI_6_beta_OpeningFcn(hObject, eventdata, handles, varargin)
 % This function has no output args, see OutputFcn.
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-% varargin   command line arguments to O_GUI_6 (see VARARGIN)
+% varargin   command line arguments to O_GUI_6_beta (see VARARGIN)
 
-% Choose default command line output for O_GUI_6
+% Choose default command line output for O_GUI_6_beta
 handles.output = hObject;
 % Shixuan: Setting Default Parameters
 handles.O.selectImage = 0;  % identify whether a image has been selected; 0 mean no image
@@ -93,7 +92,7 @@ guidata(hObject, handles);
 
 
 % --- Outputs from this function are returned to the command line.
-function varargout = O_GUI_6_OutputFcn(hObject, eventdata, handles)
+function varargout = O_GUI_6_beta_OutputFcn(hObject, eventdata, handles)
 % varargout  cell array for returning output args (see VARARGOUT);
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -256,7 +255,7 @@ InputDir=get(hObject,'String');
 % TEST IF FILE EXISTS
 if (exist(InputDir, 'file') == 2 && ~isempty(regexp(InputDir,'.xls', 'once')))  % excel file exist
     DataSetDescriptionFile=get(handles.Excell_sheet_location,'String');
-    [~,~,raw]=xlsread(DescriptionFile,'General_Info');
+    [~,~,raw]=xlsread(DataSetDescriptionFile,'General_Info');
     GlobalDirName=raw{1,2};
     FlatFieldDirName=raw{3,2};
     [~,txt,~]=xlsread(DataSetDescriptionFile,'DataSet_List');

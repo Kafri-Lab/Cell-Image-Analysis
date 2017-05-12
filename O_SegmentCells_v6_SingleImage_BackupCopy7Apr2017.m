@@ -50,7 +50,7 @@ for ch=Labeled_channals'
     O.BW_spots{ch}=BW_spots;
     
     % STEP 3: thresholding
-    O.BW{ch}=O.IM{ch}>thr;
+    O.BW{ch}=O.IM{ch}>O.General_Thresholds.Intensity_thr(ch);
     O.sIM_small{ch}=sIM_small;
 end
 
@@ -69,6 +69,10 @@ O.WS{ch}=O_WaterShedCells(NucIM,Seeds,O.sIM_small{ch});
 % combining watershed with thresholded im
 O.BW{ch}=O.BW{ch} & O.WS{ch};
 
+% REMOVING "CELLS" THAT ARE TOO BIG OR SMALL
+Mn=O.General_Thresholds.Min_Area(ch);
+Mx=O.General_Thresholds.Max_Area(ch);
+O.BW{ch}=bwareafilt(O.BW{ch},[Mn Mx+1]);
 
 % RegionalThresholding
 if O.SegmentationParameters.Regional_Thresholding==1
@@ -91,10 +95,7 @@ O.BW{ch}=bwareafilt(O.BW{ch},[Mn Mx+1]);
 
 % clean up
 O.BW{ch}=imfill(O.BW{ch},'holes');
-
-% Miriam 4/7/17: Remove this step to aid in segmenting cells. Borders will
-% be cleared later
-% O.BW{ch}=imclearborder(O.BW{ch});
+O.BW{ch}=imclearborder(O.BW{ch});
 
 %% STEP 5: segmenting Cell (optional)
 % watershedding
@@ -106,12 +107,6 @@ if ~isempty(ch)
     % combining watershed with thresholded im
     O.BW{ch}=O.BW{ch} & O.WS{ch};
     
-    % Miriam 4/7/17: This part added to fix cases where cell boundary (dpc)
-    % doesn't include the whole nucleus.
-    IncludedNuclei=(O.BW{ch} & O.BW{Nucleus_ch});
-    WholeIncNuclei=imreconstruct(IncludedNuclei,O.BW{Nucleus_ch});
-    O.BW{ch}=(O.BW{ch} | WholeIncNuclei);
-    
     % clean up
     O.BW{ch}=imfill(O.BW{ch},'holes');
     Mn=O.General_Thresholds.Min_Area(ch);
@@ -119,6 +114,7 @@ if ~isempty(ch)
     O.BW{ch}=bwareafilt(O.BW{ch},[Mn Mx+1]);
     O.BW{ch}=imclearborder(O.BW{ch});
 end
+
 
 %% STEP 6: making sure nucleii are CONTAINED in cells + labeling
 if ~isempty(Cell_ch)
