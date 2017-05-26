@@ -14,8 +14,9 @@ D=fyy.*fxx-fxy.*fyx;
 
 CellSymmetry=imgaussfilt(fxx-fyy,10);
 ShapeSaddle=imgaussfilt(D,10);
+ShapeSaddleNormalized = normalize0to1(ShapeSaddle);
+stats=regionprops(O.BW{Cell_ch},ShapeSaddleNormalized,'area','MeanIntensity','Centroid');
 
-stats=regionprops(O.BW{Cell_ch},ShapeSaddle,'area','MeanIntensity','Centroid');
 
 Area=cat(1,stats.Area);
 MeanIntensity=cat(1,stats.MeanIntensity);
@@ -26,6 +27,7 @@ figure; imshow(D,[])
 
 T=table(Int,Int);
 currentImage = O.Original_IM{3};
+saddleOverlayImage = ShapeSaddle;
 
 for n=1:size(Centroid,1)
     
@@ -37,19 +39,24 @@ for n=1:size(Centroid,1)
     Dvalue = sprintf('%.2f', Dvalue);
     text = text2im(Dvalue);
     text = text.*double(max(currentImage(:)));
+    text_sad = text2im(Dvalue).*double(max(ShapeSaddle(:)));
     [sizeY, sizeX] = size(text);
     x
     y
     if x+1>=size(currentImage,1)
         currentImage(y:sizeY+y-1,x-sizeX:x-1)=text;
+        saddleOverlayImage(y:sizeY+y-1,x-sizeX:x-1)=text_sad;
     else
         currentImage(y:sizeY+y-1,x:sizeX+x-1)=text;
+        saddleOverlayImage(y:sizeY+y-1,x:sizeX+x-1)=text_sad;
     end
 end 
 
 figure
 imshow(currentImage, [])
-a =1;
+figure
+imshow(saddleOverlayImage, [])
+pause
 
     
 
