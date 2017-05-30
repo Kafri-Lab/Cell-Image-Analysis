@@ -58,7 +58,8 @@ clc
 % N = NumberOfImages;
 % parfor_progress(N); % Initialize parfor_progress
 t1=datetime;
-for i=1:NumberOfImages
+for i=1 % only run once FOR TESTING ONLY
+% for i=1:NumberOfImages 
     t2=datetime;
 %     K=parfor_progress;
     [iterTable,ImageID,O]=O_SegmentCells_v6_SingleImage(Data.O,ImageIDs(i,:),t1,t2);
@@ -79,6 +80,8 @@ end
 % parfor_progress(0); % Clean up parfor_progress
 
 
-save([Data.O.SegmentationParameters.OutputDir 'Dataset_' regexprep(Data.O.SegmentationParameters.DataSetName,'\W','_')  'RESULTS\ResultTable.mat'],'ResultTable');
+
+
+ save([Data.O.SegmentationParameters.OutputDir 'Dataset_' regexprep(Data.O.SegmentationParameters.DataSetName,'\W','_')  'RESULTS\ResultTable.mat'],'ResultTable');
 
 
