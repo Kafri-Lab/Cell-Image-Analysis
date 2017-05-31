@@ -14,47 +14,66 @@ ShapeSaddle=imgaussfilt(D,10);
 ShapeSaddleNormalized = normalize0to1(ShapeSaddle);
 stats=regionprops(O.BW{Nucleus_ch},ShapeSaddleNormalized,'area','MeanIntensity','Centroid');
 
-Centroid=cat(1,stats.Centroid);
+Centroid_=cat(1,stats.Centroid);
 
-nuc = O.Original_IM{3};
 cyt = O.Original_IM{1};
 saddleOverlayImage = ShapeSaddle;
-Mitosis = [];
+Mitosis = []; 
 
-for n=1:size(Centroid,1)
+for a=1:2
     
-    x = round(Centroid(n,1));
-    y = round(Centroid(n,2));
+    nuc = O.Original_IM{3};
+    if a==1
+        figTitle = 'Saddle Point Metric';
+    else
+        figTitle = 'Cell Symmetry Metric';
+    end 
     
-    Dvalue = ShapeSaddle(y,x);
-    Mitosis = [Mitosis;round(Dvalue,2)];
-    Dvalue = sprintf('%.2f ', Dvalue);
-%     text = text2im(Dvalue);
-%     text = text.*double(max(nuc(:)));
-%     [sizeY, sizeX] = size(text);
-%     
-%     if x+1>=size(nuc,1)
-%         nuc(y:sizeY+y-1,x-sizeX:x-1)=text;
-%     else
-%         nuc(y:sizeY+y-1,x:sizeX+x-1)=text;
-%     end
+    for n=1:size(Centroid_,1)
+        
+        x = round(Centroid_(n,1));
+        y = round(Centroid_(n,2));
+        
+        if a==1
+            value = ShapeSaddle(y,x); 
+            Mitosis = [Mitosis;str2double(value)];
+        else
+            value = CellSymmetry(y,x);
+        end
+        
+        value = sprintf('%.2f', value);
+        text = text2im(value);
+        text = text.*double(max(nuc(:)));
+        [sizeY,sizeX] = size(text);
+       
+        if x+1>=size(nuc,1)
+            nuc(y:sizeY+y-1,x-sizeX:x-1)=text;
+        else
+            nuc(y:sizeY+y-1,x:sizeX+x-1)=text;
+        end
+        
+    end
     
-end 
+    figure
+    imshow(nuc, [])
+    title(figTitle);
+    hold on
+    plot(Centroid_(:,1),Centroid_(:,2),'.r')
+end
 
-T = table(Centroid,Mitosis);
-% figure
-% imshow(nuc, [])
-% hold on
-% plot(Centroid(:,1),Centroid(:,2),'.r')
-% figure
-% imshow(cyt, [])
-% hold on
-% plot(Centroid(:,1),Centroid(:,2),'.r')
+T = table(Centroid_,Mitosis);
+
+figure
+imshow(cyt, [])
+hold on
+plot(Centroid_(:,1),Centroid_(:,2),'.r')
+
 % figure
 % imshow(saddleOverlayImage, [])
 % hold on
-% plot(Centroid(:,1),Centroid(:,2),'.r')
-% pause;
-% close all;
+% plot(Centroid_(:,1),Centroid_(:,2),'.r')
 save('Mitosis_Probability.mat', 'T');
+pause;
+close all;
+
 
