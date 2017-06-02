@@ -36,9 +36,9 @@ for a=1:2
         
         if a==1
             value = ShapeSaddle(y,x); 
-            Mitosis = [Mitosis;str2double(value)];
+            Mitosis = [Mitosis;round(value,2)];
         else
-            value = CellSymmetry(y,x);
+            value = abs(CellSymmetry(y,x));
         end
         
         value = sprintf('%.2f', value);
