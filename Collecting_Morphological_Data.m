@@ -22,14 +22,14 @@ NumberOfCells = max(O.BW{Nucleus_ch}(:));
 SaddlePoint = zeros(1,NumberOfCells)'; 
 CellSymmetry = zeros(1,NumberOfCells)'; 
 
-for a=1:2
+for a=1:1
 %     NOTE: These comments are helpful for visualization
-%     nuc = O.Original_IM{3};
-%     if a==1
-%         figTitle = 'Saddle Point Metric';
-%     else
-%         figTitle = 'Cell Symmetry Metric';
-%     end 
+    nuc = O.Original_IM{3};
+    if a==1
+        figTitle = 'Saddle Point Metric';
+    else
+        figTitle = 'Cell Symmetry Metric';
+    end 
     
     for n=1:size(Centroid_,1)
         
@@ -44,24 +44,24 @@ for a=1:2
             CellSymmetry(n:NumberOfCells,1)=round(value,2);
         end
         
-%         value = sprintf('%.2f', value);
-%         text = text2im(value);
-%         text = text.*double(max(nuc(:)));
-%         [sizeY,sizeX] = size(text);
-%        
-%         if x+1>=size(nuc,1)
-%             nuc(y:sizeY+y-1,x-sizeX:x-1)=text;
-%         else
-%             nuc(y:sizeY+y-1,x:sizeX+x-1)=text;
-%         end
+        value = sprintf('%.2f', value);
+        text = text2im(value);
+        text = text.*double(max(nuc(:)));
+        [sizeY,sizeX] = size(text);
+       
+        if x+1>=size(nuc,1)
+            nuc(y:sizeY+y-1,x-sizeX:x-1)=text;
+        else
+            nuc(y:sizeY+y-1,x:sizeX+x-1)=text;
+        end
         
     end
     
-%     figure
-%     imshow(nuc, [])
-%     title(figTitle);
-%     hold on
-%     plot(Centroid_(:,1),Centroid_(:,2),'.r')
+    figure
+    imshow(nuc, [])
+    title(figTitle);
+    hold on
+    plot(Centroid_(:,1),Centroid_(:,2),'.r')
 end
 
 T = table(SaddlePoint,CellSymmetry);
@@ -75,7 +75,7 @@ T = table(SaddlePoint,CellSymmetry);
 % imshow(saddleOverlayImage, [])
 % hold on
 % plot(Centroid_(:,1),Centroid_(:,2),'.r')
-% pause;
+ pause;
 % close all;
 
 

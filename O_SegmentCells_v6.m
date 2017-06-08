@@ -36,7 +36,14 @@ function [ResultTable]=O_SegmentCells_v6(Data)
 % the field: O.SegmentationParameters.No_Loading_Images=true. The images
 % used will then be O.IM
 
-ImageIDs=Data.O.ImageIDs;
+row = 2;
+column = 5;
+field = 10;
+min_time = 1;
+max_time = 10;
+ImageIDs = Data.O.ImageIDs;
+rows=ImageIDs.Row == 2 & ImageIDs.Column == 5 & ImageIDs.Field == 10 & ImageIDs.Time <= max_time & ImageIDs.Time >= min_time;
+ImageIDs = Data.O.ImageIDs(rows,:);
 I=find(ImageIDs.Channel==1);
 ImageIDs=ImageIDs(I,:);
 ImageIDs(:,{'Channel'})=[];
@@ -59,7 +66,7 @@ clc
 % parfor_progress(N); % Initialize parfor_progress
 t1=datetime;
 %for i=1 % only run once FOR TESTING ONLY
-for i=1:NumberOfImages 
+for i=1:10 
     t2=datetime;
 %     K=parfor_progress;
     [iterTable,ImageID,O]=O_SegmentCells_v6_SingleImage(Data.O,ImageIDs(i,:),t1,t2);
