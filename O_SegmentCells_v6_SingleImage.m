@@ -156,6 +156,12 @@ if isfield(O,'Collecting_X_Data')
     iterTable=[iterTable T];
 end
 
+if isfield(O,'Collecting_Histogram_Data')
+    eval(['[T]=' O.Collecting_Histogram_Data '(O,NumberOfCells);'])
+    iterTable=[iterTable T];
+end
+
+
 
 
 %     figure(1)
