@@ -2,6 +2,7 @@ DirName='\\carbon.research.sickkids.ca\rkafri\OPRETTA\Operetta Processed OutPutF
 FileName='SegPar_SegmentationParameters';
 load([DirName '\' FileName])
 Data.O.Collecting_X_Data='Collecting_Morphological_Data';
+Data.O.Saving_Boundries='Saving_Boundries';
 Data.O.SegmentationParameters.OutputDir = '\\carbon.research.sickkids.ca\rkafri\Heather\ResultsTables\'
 [ResultTable]=O_SegmentCells_v6(Data);
 

@@ -161,6 +161,11 @@ if isfield(O,'Collecting_Histogram_Data')
     iterTable=[iterTable T];
 end
 
+if isfield(O,'Saving_Boundries')
+    eval(['[T]=' O.Saving_Boundries '(O,NumberOfCells);'])
+    iterTable=[iterTable T];
+end
+
 
 
 
