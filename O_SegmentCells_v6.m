@@ -71,8 +71,9 @@ NumberOfImages=size(ImageIDs,1)
 % parfor_progress(N); % Initialize parfor_progress
 t1=datetime;
 %for i=1 % only run once FOR TESTING ONLY
-for i=1:NumberOfImages 
+for i=1:NumberOfImages
     t2=datetime;
+    fprintf('Processing image %d of %d.\n',i,NumberOfImages);
 %     K=parfor_progress;
     [iterTable,ImageID,O]=O_SegmentCells_v6_SingleImage(Data.O,ImageIDs(i,:),t1,t2);
     %iterTable = segmentation results for one image
