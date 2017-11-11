@@ -5,8 +5,8 @@ if ~isdir([O.SegmentationParameters.OutputDir 'Dataset_' regexprep(O.Segmentatio
 end
     
 %% preparing data
-Nucleus_ch=find(strcmp(O.General_Thresholds.Label,'Nucleus'));
-Cell_ch=find(strcmp(O.General_Thresholds.Label,'Cell'));
+Nucleus_ch=find(cell2mat(strfind(O.General_Thresholds.Label,'Nucleus')));
+Cell_ch=find(cell2mat(strfind(O.General_Thresholds.Label,'Cell')));
 Lkb_ch=find(strcmpi(O.General_Thresholds.Name,'LKB1'));
 Lkb_thr=O.General_Thresholds.Intensity_thr(Lkb_ch);
 Total_num_of_cells=max(O.BW{Cell_ch}(:));

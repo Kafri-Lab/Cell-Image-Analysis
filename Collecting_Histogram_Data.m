@@ -1,6 +1,6 @@
 function [T]=Collecting_Histogram_Data(O,NumberOfCells)
-    Nucleus_ch=find(strcmp(O.General_Thresholds.Label,'Nucleus'));
-    Cell_ch=find(strcmp(O.General_Thresholds.Label,'Cell'));
+    Nucleus_ch=find(cell2mat(strfind(O.General_Thresholds.Label,'Nucleus')));
+    Cell_ch=find(cell2mat(strfind(O.General_Thresholds.Label,'Cell')));
     nuc = O.IM{Nucleus_ch};
     labelled_nuc = O.BW{Nucleus_ch};
 
@@ -21,6 +21,7 @@ function [T]=Collecting_Histogram_Data(O,NumberOfCells)
     %   Compute histogram(nuc_values(:))
     %   Store historgram result in nuc_histograms array
 
+    %% Histogram bins are equally spaced between min and max
     nuc_histograms = [];
     [maxVal] = max(labelled_nuc(:));
     for cell_index = 1:maxVal

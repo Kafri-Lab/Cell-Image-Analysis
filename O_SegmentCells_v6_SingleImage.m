@@ -15,8 +15,8 @@
 disp(ImageIDs(1,1:4))
 
 Labeled_channals=find(~strcmp(O.General_Thresholds.Label,'Non'));
-Nucleus_ch=find(strcmp(O.General_Thresholds.Label,'Nucleus'));
-Cell_ch=find(strcmp(O.General_Thresholds.Label,'Cell'));
+Nucleus_ch=find(cell2mat(strfind(O.General_Thresholds.Label,'Nucleus')));
+Cell_ch=find(cell2mat(strfind(O.General_Thresholds.Label,'Cell')));
 Seed_ch=find(O.General_Thresholds.Seed); %This channel is used as seed for NUCLEI. Nuclei are always used as seeds for CELL channel.
 OutPutdir=[O.OutputDir O.DataSetName];
 if ~exist(OutPutdir,'dir')
@@ -135,37 +135,50 @@ end
 NumberOfCells=max(O.BW{Nucleus_ch}(:));
 [T]=CollectNucleusData(O,NumberOfCells);
 iterTable=T;
-if isfield(O.SegmentationParameters,'Edge_Sharpness') && O.SegmentationParameters.Edge_Sharpness==1
-    [T]=Collecting_EdgeDef(O,NumberOfCells);
-    iterTable=[iterTable T];
-end
 
 if ~isempty(Cell_ch)
     [T]=CollectCellData(O,NumberOfCells);
     iterTable=[iterTable T];
 end
 
+if isfield(O,'Collecting_MoreRegionProps')
+    fprintf('Running Collecting_MoreRegionProps...\n')
+    eval(['[T]=' O.Collecting_MoreRegionProps '(O,NumberOfCells);'])
+    iterTable=[iterTable T];
+end
+
+if isfield(O.SegmentationParameters,'Edge_Sharpness') && O.SegmentationParameters.Edge_Sharpness==1
+    [T]=Collecting_EdgeDef(O,NumberOfCells);
+    iterTable=[iterTable T];
+end
+
+
 if isfield(O,'Collecting_X_Data')
+    fprintf('Running %s...\n', O.Collecting_X_Data)
     eval(['[T]=' O.Collecting_X_Data '(O,NumberOfCells);'])
     iterTable=[iterTable T];
 end
 
 if isfield(O,'Collecting_Y_Data')
+    fprintf('Running %s...\n', O.Collecting_Y_Data)
     eval(['[T]=' O.Collecting_Y_Data '(O,NumberOfCells);'])
     iterTable=[iterTable T];
 end
 
 if isfield(O,'Collecting_Morphological_Data')
+    fprintf('Running Collecting_Morphological_Data...\n')
     eval(['[T]=' O.Collecting_Morphological_Data '(O,NumberOfCells);'])
     iterTable=[iterTable T];
 end
 
 if isfield(O,'Collecting_Histogram_Data')
+    fprintf('Running Collecting_Histogram_Data...\n')
     eval(['[T]=' O.Collecting_Histogram_Data '(O,NumberOfCells);'])
     iterTable=[iterTable T];
 end
 
 if isfield(O,'Saving_Boundries') % Note(DanielS): Save the pixel IDs of the nuc and cyto boundries. Warning: large amount of data
+    fprintf('Running Saving_Boundries...\n')
     eval(['[T]=' O.Saving_Boundries '(O,NumberOfCells);'])
     iterTable=[iterTable T];
 end
@@ -184,7 +197,7 @@ end
 ImageID=O.ImageID;
 function [T]=CollectNucleusData(O,NumberOfCells)
 
-Nucleus_ch=find(strcmp(O.General_Thresholds.Label,'Nucleus'));
+Nucleus_ch=find(cell2mat(strfind(O.General_Thresholds.Label,'Nucleus')));
 NucStats=regionprops(O.BW{Nucleus_ch},'Area','Eccentricity','Solidity','Centroid',...
     'MajorAxisLength','MinorAxisLength','Orientation');
 Eccentricity=cat(1,NucStats.Eccentricity);
@@ -205,8 +218,21 @@ for Channel=1:4
 end
 T=table(Eccentricity,Solidity,MajorAxisLength,MinorAxisLength,Orientation,Centroid,NArea,NInt);
 
+function [T]=CollectCellData(O,NumberOfCells)
+Cell_ch=find(cell2mat(strfind(O.General_Thresholds.Label,'Cell')));
+CellStats=regionprops(O.BW{Cell_ch},'Area');
+CArea=cat(1,CellStats.Area);
+CInt=zeros(NumberOfCells,4);
+for Channel=1:4
+    if ismember(Channel,O.ImagedChannels)
+        stats_cell=regionprops(O.BW{Cell_ch},O.IM{Channel},'MeanIntensity');
+        CInt(1:NumberOfCells,Channel)=cat(1,stats_cell.MeanIntensity).*CArea;
+    end
+end
+T=table(CArea,CInt);
+
 function [T]=Collecting_EdgeDef(O,NumberOfCells)
-Nucleus_ch=find(strcmp(O.General_Thresholds.Label,'Nucleus'));
+Nucleus_ch=find(cell2mat(strfind(O.General_Thresholds.Label,'Nucleus')));
 
 ED=zeros(1,NumberOfCells);
 edgeim=stdfilt(O.IM{Nucleus_ch});
@@ -230,21 +256,8 @@ end
 if size(Ed1,2)>1
     Ed1=Ed1';
 end
-ED=Ed1./Ed2;
-T=table(ED);
-
-function [T]=CollectCellData(O,NumberOfCells)
-Cell_ch=find(strcmp(O.General_Thresholds.Label,'Cell'));
-CellStats=regionprops(O.BW{Cell_ch},'Area');
-CArea=cat(1,CellStats.Area);
-CInt=zeros(NumberOfCells,4);
-for Channel=1:4
-    if ismember(Channel,O.ImagedChannels)
-        stats_cell=regionprops(O.BW{Cell_ch},O.IM{Channel},'MeanIntensity');
-        CInt(1:NumberOfCells,Channel)=cat(1,stats_cell.MeanIntensity).*CArea;
-    end
-end
-T=table(CArea,CInt);
+NEdgeDef=Ed1./Ed2;
+T=table(NEdgeDef);
 
 function [imn]=NormalizeImage(im,varargin)
 
