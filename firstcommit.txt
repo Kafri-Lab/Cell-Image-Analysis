@@ -1,3 +1,0 @@
-more git learning
-dog
- new destructive re-org
