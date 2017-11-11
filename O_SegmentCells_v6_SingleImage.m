@@ -150,21 +150,25 @@ if isfield(O,'Collecting_X_Data')
     iterTable=[iterTable T];
 end
 
-if isfield(O,'Collecting_Histogram_Data')
-    eval(['[T]=' O.Collecting_Histogram_Data '(O,NumberOfCells);'])
-    iterTable=[iterTable T];
-end
-
-if isfield(O,'Saving_Boundries')
-    eval(['[T]=' O.Saving_Boundries '(O,NumberOfCells);'])
-    iterTable=[iterTable T];
-end
-
 if isfield(O,'Collecting_Y_Data')
     eval(['[T]=' O.Collecting_Y_Data '(O,NumberOfCells);'])
     iterTable=[iterTable T];
 end
 
+if isfield(O,'Collecting_Morphological_Data')
+    eval(['[T]=' O.Collecting_Morphological_Data '(O,NumberOfCells);'])
+    iterTable=[iterTable T];
+end
+
+if isfield(O,'Collecting_Histogram_Data')
+    eval(['[T]=' O.Collecting_Histogram_Data '(O,NumberOfCells);'])
+    iterTable=[iterTable T];
+end
+
+if isfield(O,'Saving_Boundries') % Note(DanielS): Save the pixel IDs of the nuc and cyto boundries. Warning: large amount of data
+    eval(['[T]=' O.Saving_Boundries '(O,NumberOfCells);'])
+    iterTable=[iterTable T];
+end
 
 
 %     figure(1)
