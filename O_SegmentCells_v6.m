@@ -53,7 +53,7 @@ ImageIDs(:,{'Channel'})=[];
 iT=find(strcmpi(ImageIDs.Properties.VariableNames,'time'));
 ImageIDs=sortrows(ImageIDs,[iT 1:iT-1]);
 
-NumberOfImages=size(ImageIDs,1)
+NumberOfImages=size(ImageIDs,1);
 ResultTable=[];
 
 if ~isdir([Data.O.SegmentationParameters.OutputDir 'Dataset_' regexprep(Data.O.SegmentationParameters.DataSetName,'\W','_')  'RESULTS'])
