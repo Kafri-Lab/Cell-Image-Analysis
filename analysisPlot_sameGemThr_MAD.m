@@ -1,4 +1,4 @@
-%% This script use DAPI and Geminin to divide cells into different cell cycle stages
+  %% This script use DAPI and Geminin to divide cells into different cell cycle stages
 Wells = unique(ResultTable(:,1:2));
 CellNum = ones(size(Wells,1), 2)*nan; % 1st col raw number, 2nd col corrected number
 Props = ones(size(Wells,1), 5)*nan; % EG1, LG1, G1S, S, G2

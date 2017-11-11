@@ -1,5 +1,9 @@
 function [O]=O_LoadImages(O)
 DirName=O.DirName;
+if strcmp(DirName(1:4),'R:\O')
+    DirName=['\\carbon.research.sickkids.ca\rkafri\' DirName(4:end)];
+end
+
 FileType=O.FileType;
 if strcmpi(O.FileType,'Operetta')
     Ri=O.ImageID.Row;
@@ -43,7 +47,7 @@ else
             drawnow
         end
         Nums.Channal=k;
-        [im]=O_Get_Image_File(O.DirName,Nums,NumberLengths,BaseName,FileType);
+        [im]=O_Get_Image_File(O.DirName,Nums,NumberLengths,BaseName,FileType,O.Image_Retrieval_data);
         IM{k}=im;
         WS{k}=[];
         O.BW_spots{k}=[];

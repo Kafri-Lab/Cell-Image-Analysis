@@ -104,14 +104,8 @@ if ~isempty(ch)
     O.WS{ch}=O_WaterShedCells(O.IM{ch},Seeds);
     
     % combining watershed with thresholded im
-    O.BW{ch}=O.BW{ch} & O.WS{ch};
-    
-    % Miriam 4/7/17: This part added to fix cases where cell boundary (dpc)
-    % doesn't include the whole nucleus.
-    IncludedNuclei=(O.BW{ch} & O.BW{Nucleus_ch});
-    WholeIncNuclei=imreconstruct(IncludedNuclei,O.BW{Nucleus_ch});
-    O.BW{ch}=(O.BW{ch} | WholeIncNuclei);
-    
+    O.BW{ch}=(O.BW{ch} | O.BW{Nucleus_ch}) & O.WS{ch};
+        
     % clean up
     O.BW{ch}=imfill(O.BW{ch},'holes');
     Mn=O.General_Thresholds.Min_Area(ch);
@@ -153,6 +147,11 @@ end
 
 if isfield(O,'Collecting_X_Data')
     eval(['[T]=' O.Collecting_X_Data '(O,NumberOfCells);'])
+    iterTable=[iterTable T];
+end
+
+if isfield(O,'Collecting_Y_Data')
+    eval(['[T]=' O.Collecting_Y_Data '(O,NumberOfCells);'])
     iterTable=[iterTable T];
 end
 
@@ -231,7 +230,7 @@ for Channel=1:4
         CInt(1:NumberOfCells,Channel)=cat(1,stats_cell.MeanIntensity).*CArea;
     end
 end
-T=table(CInt);
+T=table(CArea,CInt);
 
 function [imn]=NormalizeImage(im,varargin)
 
