@@ -1,9 +1,10 @@
 function [ImageID,BaseName,NumberLengths]=O_retrieve_names_v2(DirName,FileType)
 BaseName=0;
 counter=0;
+
 if ~strcmpi(FileType,'Operetta')
     listing=dir([DirName]);
-
+    
     for i=1:length(listing)
         IsTiff=~isempty(strfind(listing(i).name,'.tif'));
         if IsTiff
@@ -11,8 +12,15 @@ if ~strcmpi(FileType,'Operetta')
             [T,BaseName,NumberLengths]=CollectImageNumbers(listing(i).name,FileType);
             if ~exist('ImgTable')
                 ImgTable=T;
+                if strcmp(FileType,'FileType3')
+                    
+                end
             else
                 ImgTable=[ImgTable;T];
+                if strcmp(FileType,'FileType3')
+                    
+                end
+
             end
             if mod(i,10)==0
                 figure(999)
@@ -39,12 +47,21 @@ elseif strcmpi(FileType,'Operetta')
         eval(['Parameter' num2str(i) '=s.AssayLayout.Layer{' num2str(i) '}.Name.Text;'])
         eval(['Parameter' num2str(i) '=regexprep(Parameter' num2str(i) ',''[^ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]'','''');'])
     end
-    for i=1:length(s.AssayLayout.Layer{1}.Well)
-        C=str2num(s.AssayLayout.Layer{1}.Well{i}.Col.Text);
-        R=str2num(s.AssayLayout.Layer{1}.Well{i}.Row.Text);
-        PlateMap.color(R,C)=str2num(s.AssayLayout.Layer{3}.Well{i}.Color.Text);
+    if length(s.AssayLayout.Layer{1}.Well)==1 %% This if condition added by Shixuan
+        C=str2num(s.AssayLayout.Layer{1}.Well.Col.Text);
+        R=str2num(s.AssayLayout.Layer{1}.Well.Row.Text);
+        PlateMap.color(R,C)=str2num(s.AssayLayout.Layer{3}.Well.Color.Text);
         for i2=1:length(s.AssayLayout.Layer)
-            eval(['PlateMap.Parameter' num2str(i2) '{R,C}=s.AssayLayout.Layer{1}.Well{i}.Value.Text;'])
+            eval(['PlateMap.Parameter' num2str(i2) '{R,C}=s.AssayLayout.Layer{1}.Well.Value.Text;'])
+        end
+    else
+        for i=1:length(s.AssayLayout.Layer{1}.Well)
+            C=str2num(s.AssayLayout.Layer{1}.Well{i}.Col.Text);
+            R=str2num(s.AssayLayout.Layer{1}.Well{i}.Row.Text);
+            PlateMap.color(R,C)=str2num(s.AssayLayout.Layer{3}.Well{i}.Color.Text);
+            for i2=1:length(s.AssayLayout.Layer)
+                eval(['PlateMap.Parameter' num2str(i2) '{R,C}=s.AssayLayout.Layer{1}.Well{i}.Value.Text;'])
+            end
         end
     end
     clear Parameter1 Parameter2 Parameter3 Parameter4
@@ -104,6 +121,25 @@ elseif strcmpi(FileType,'FileType2')
     T=array2table(structfun(@str2num,Nums)','variablenames',fieldnames(Nums)');
     % T=[T table(1,'variablename',{'Time'}) table({filename},'variablename',{'FileName'})];
     T=[T table(1,'variablename',{'Time'})];
+elseif strcmpi(FileType,'FileType3')
+    % NameType #2
+    % example: New_S0000(TR1)_C00_M0000_ORG.tif
+    Nums=regexp(filename,'(?<BaseName>.*)_S(?<S>\d+)\((?<P>.+)\)_C(?<Channel>\d+)\((?<ch_name>.+)\)_M(?<M>\d+)','names');
+    BaseName=Nums.BaseName;
+    ch_name=Nums.ch_name;
+    Well_Num=Nums.P(1:2);
+    Nums=rmfield(Nums,'BaseName');
+    Nums=rmfield(Nums,'ch_name');
+    Nums=rmfield(Nums,'P');
+    NumberLengths=structfun(@length,Nums)';
+    T=array2table(structfun(@str2num,Nums)','variablenames',fieldnames(Nums)');
+    % T=[T table(1,'variablename',{'Time'}) table({filename},'variablename',{'FileName'})];
+    T=[T table(1,'variablename',{'Time'})];
+    Row=findstr(Well_Num(1),'ABCDEFGH');
+    Column=str2num(Well_Num(2));
+    T=[T table(Row,'variablename',{'Row'})];
+    T=[T table(Column,'variablename',{'Column'})];
+    T=[T table({ch_name},'variablename',{'ch_name'})];
 elseif strcmpi(FileType,'Operetta')
     
 end

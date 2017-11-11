@@ -1,5 +1,4 @@
-
-function varargout = O_GUI_6(varargin)
+function varargout = O_GUI_6(varargin)  
 % O_GUI_6 MATLAB code for O_GUI_6.fig
 %       O_GUI_6, by itself, creates a new O_GUI_6 or raises the existing
 %      singleton*.
@@ -380,7 +379,11 @@ if handles.O.IsExcel==1
         handles.O.Image_Retrieval_data.NumberLengths=NumberLengths;
         handles.O.PlateType=handles.O.XLS.PlateSize(DatasetID);
         handles.O.ImagedChannels=unique(ImageIDs.Channel);
-        
+        if any(ismember(ImageIDs.Properties.VariableNames,'ch_name'))
+            [unq,iunq]=unique(ImageIDs.Channel);
+            handles.O.Image_Retrieval_data.ch_names=ImageIDs.ch_name(iunq);
+            ImageIDs.ch_name=[];
+        end
         % DETERMINE IF IT IS A 96 OR 384 WELL PLATE
         if handles.O.PlateType==384
             handles.O.NumColumns=24;
