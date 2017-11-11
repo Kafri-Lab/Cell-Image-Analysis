@@ -36,14 +36,17 @@ function [ResultTable]=O_SegmentCells_v6(Data)
 % the field: O.SegmentationParameters.No_Loading_Images=true. The images
 % used will then be O.IM
 
-row = 2;
-column = 5;
-field = 10;
-min_time = 1;
-max_time = 10;
-ImageIDs = Data.O.ImageIDs;
-rows=ImageIDs.Row == 2 & ImageIDs.Column == 5 & ImageIDs.Field == 10 & ImageIDs.Time <= max_time & ImageIDs.Time >= min_time;
-ImageIDs = Data.O.ImageIDs(rows,:);
+%% NOTE(DanielS): Optionally limit what is segmented
+%row = 2;
+%column = 5;
+%field = 10;
+%min_time = 1;
+%max_time = 10;
+%ImageIDs = Data.O.ImageIDs;
+%rows=ImageIDs.Row == 2 & ImageIDs.Column == 5 & ImageIDs.Field == 10 & ImageIDs.Time <= max_time & ImageIDs.Time >= min_time;
+%ImageIDs = Data.O.ImageIDs(rows,:);
+
+ImageIDs=Data.O.ImageIDs;
 I=find(ImageIDs.Channel==1);
 ImageIDs=ImageIDs(I,:);
 ImageIDs(:,{'Channel'})=[];
@@ -66,7 +69,7 @@ clc
 % parfor_progress(N); % Initialize parfor_progress
 t1=datetime;
 %for i=1 % only run once FOR TESTING ONLY
-for i=1:10 
+for i=1:NumberOfImages 
     t2=datetime;
 %     K=parfor_progress;
     [iterTable,ImageID,O]=O_SegmentCells_v6_SingleImage(Data.O,ImageIDs(i,:),t1,t2);
@@ -76,14 +79,13 @@ for i=1:10
     ResultTable=[ResultTable ; iterTable];
 %     if mod(i,10)==0
 %         for k=1:size(O.General_Thresholds,1)
-%         for k=1:length(O.IM)
 %             if any(O.BW{k}(:))
 %                 figure(1);imshow(showseg_thick(mat2gray(O.IM{k}),O.BW{k},[1 0 0])) %Edited by Miriam 4/7/17
 %                print([Data.O.SegmentationParameters.OutputDir 'Dataset_' regexprep(Data.O.SegmentationParameters.DataSetName,'\W','_')  'RESULTS\ExampleImages\Image_c' num2str(k) '_Ind_' num2str(i)],'-dpng')
 %             end
 %         end
 %     end
-    
+end
 % parfor_progress(0); % Clean up parfor_progress
 
 
