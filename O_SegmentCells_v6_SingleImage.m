@@ -15,8 +15,8 @@
 disp(ImageIDs(1,1:4))
 
 Labeled_channals=find(~strcmp(O.General_Thresholds.Label,'Non'));
-Nucleus_ch=find(cell2mat(strfind(O.General_Thresholds.Label,'Nucleus')));
-Cell_ch=find(cell2mat(strfind(O.General_Thresholds.Label,'Cell')));
+Nucleus_ch=find(strcmp(O.General_Thresholds.Label,'Nucleus'));
+Cell_ch=find(strcmp(O.General_Thresholds.Label,'Cell'));
 Seed_ch=find(O.General_Thresholds.Seed); %This channel is used as seed for NUCLEI. Nuclei are always used as seeds for CELL channel.
 OutPutdir=[O.OutputDir O.DataSetName];
 if ~exist(OutPutdir,'dir')
@@ -141,12 +141,6 @@ if ~isempty(Cell_ch)
     iterTable=[iterTable T];
 end
 
-if isfield(O,'Collecting_MoreRegionProps')
-    fprintf('Running Collecting_MoreRegionProps...\n')
-    eval(['[T]=' O.Collecting_MoreRegionProps '(O,NumberOfCells);'])
-    iterTable=[iterTable T];
-end
-
 if isfield(O.SegmentationParameters,'Edge_Sharpness') && O.SegmentationParameters.Edge_Sharpness==1
     [T]=Collecting_EdgeDef(O,NumberOfCells);
     iterTable=[iterTable T];
@@ -159,30 +153,14 @@ if isfield(O,'Collecting_X_Data')
     iterTable=[iterTable T];
 end
 
-if isfield(O,'Collecting_Y_Data')
-    fprintf('Running %s...\n', O.Collecting_Y_Data)
-    eval(['[T]=' O.Collecting_Y_Data '(O,NumberOfCells);'])
-    iterTable=[iterTable T];
+if isfield(O,'Collecting_More_Data')
+    for i=1:length(O.Collecting_More_Data)
+        func_name = O.Collecting_More_Data{i};
+        fprintf('Running %s...\n', func_name)
+        eval(['[T]=' func_name '(O,NumberOfCells);'])
+        iterTable=[iterTable T];
+    end
 end
-
-if isfield(O,'Collecting_Morphological_Data')
-    fprintf('Running Collecting_Morphological_Data...\n')
-    eval(['[T]=' O.Collecting_Morphological_Data '(O,NumberOfCells);'])
-    iterTable=[iterTable T];
-end
-
-if isfield(O,'Collecting_Histogram_Data')
-    fprintf('Running Collecting_Histogram_Data...\n')
-    eval(['[T]=' O.Collecting_Histogram_Data '(O,NumberOfCells);'])
-    iterTable=[iterTable T];
-end
-
-if isfield(O,'Saving_Boundries') % Note(DanielS): Save the pixel IDs of the nuc and cyto boundries. Warning: large amount of data
-    fprintf('Running Saving_Boundries...\n')
-    eval(['[T]=' O.Saving_Boundries '(O,NumberOfCells);'])
-    iterTable=[iterTable T];
-end
-
 
 %     figure(1)
 %     imshow(showseg_thick(NormalizeImage(O.IM{1}),O.BW{1},[1 0 0]),[])
@@ -211,7 +189,7 @@ Ncells=length(NArea);
 
 NInt=zeros(length(NArea),4);
 for Channel=1:4
-    if ismember(Channel,O.ImagedChannels)
+    if ismember(Channel,O.ImagedChannels)   
         stats_nuc=regionprops(O.BW{Nucleus_ch},O.IM{Channel},'MeanIntensity');
         NInt(1:Ncells,Channel)=cat(1,stats_nuc.MeanIntensity).*NArea;
     end

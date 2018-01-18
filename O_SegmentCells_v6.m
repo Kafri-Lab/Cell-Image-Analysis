@@ -88,9 +88,9 @@ for i=1:NumberOfImages
             end
         end
     end
+    
 end
 % parfor_progress(0); % Clean up parfor_progress
-
 
 
 save_path = [Data.O.SegmentationParameters.OutputDir 'Dataset_' regexprep(Data.O.SegmentationParameters.DataSetName,'\W','_')  'RESULTS\ResultTable.mat']

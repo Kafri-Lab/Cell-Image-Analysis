@@ -1,4 +1,4 @@
-    function [ResultTable]=O_SegmentCells_v6_Par_proc(Data)
+function [ResultTable]=O_SegmentCells_v6_Par_proc(Data)
  
 %% There are several ways to use this program as will be described
 % 1. If we do not need to estimate nuclear area

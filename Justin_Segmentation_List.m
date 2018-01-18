@@ -1,23 +1,23 @@
-% clear
-% DirName='\\carbon.research.sickkids.ca\rkafri\OPRETTA\Operetta Processed OutPutFiles\Dataset_20171024_JS_CycD1_PretreatRESULTS';
-% FileName='SegPar_SegmentationParameters';
-% load([DirName '\' FileName])
-% [ResultTable]=O_SegmentCells_v6_Par_proc(Data);
-% clear
-% DirName='\\carbon.research.sickkids.ca\rkafri\OPRETTA\Operetta Processed OutPutFiles\Dataset_20171024_JS_CycD1_18HrRESULTS';
-% FileName='SegPar_SegmentationParameters';
-% load([DirName '\' FileName])
-% [ResultTable]=O_SegmentCells_v6_Par_proc(Data);
-% clear
-% DirName='\\carbon.research.sickkids.ca\rkafri\OPRETTA\Operetta Processed OutPutFiles\Dataset_20171024_JS_CycD1_24HrRESULTS';
-% FileName='SegPar_SegmentationParameters';
-% load([DirName '\' FileName])
-% [ResultTable]=O_SegmentCells_v6_Par_proc(Data);
-% clear
-% DirName='\\carbon.research.sickkids.ca\rkafri\OPRETTA\Operetta Processed OutPutFiles\Dataset_20171024_JS_CycD1_42HrRESULTS';
-% FileName='SegPar_SegmentationParameters';
-% load([DirName '\' FileName])
-% [ResultTable]=O_SegmentCells_v6_Par_proc(Data);
+clear
+DirName='\\carbon.research.sickkids.ca\rkafri\OPRETTA\Operetta Processed OutPutFiles\Dataset_20180108_JS_cycE_54HrRESULTS';
+FileName='SegPar_SegmentationParameters';
+load([DirName '\' FileName])
+[ResultTable]=O_SegmentCells_v6_Par_proc(Data);
+clear
+DirName='\\carbon.research.sickkids.ca\rkafri\OPRETTA\Operetta Processed OutPutFiles\Dataset_20180108_JS_p27_54HrRESULTS';
+FileName='SegPar_SegmentationParameters';
+load([DirName '\' FileName])
+[ResultTable]=O_SegmentCells_v6_Par_proc(Data);
+clear
+DirName='\\carbon.research.sickkids.ca\rkafri\OPRETTA\Operetta Processed OutPutFiles\Dataset_20180108_JS_cycE_69HrRESULTS';
+FileName='SegPar_SegmentationParameters';
+load([DirName '\' FileName])
+[ResultTable]=O_SegmentCells_v6_Par_proc(Data);
+clear
+DirName='\\carbon.research.sickkids.ca\rkafri\OPRETTA\Operetta Processed OutPutFiles\Dataset_20180108_JS_p27_69HrRESULTS';
+FileName='SegPar_SegmentationParameters';
+load([DirName '\' FileName])
+[ResultTable]=O_SegmentCells_v6_Par_proc(Data);
 % clear
 % DirName='\\carbon.research.sickkids.ca\rkafri\OPRETTA\Operetta Processed OutPutFiles\Dataset_20171024_JS_CycD1_48HrRESULTS';
 % FileName='SegPar_SegmentationParameters';
@@ -254,28 +254,26 @@
 % load([DirName '\' FileName])
 % [ResultTable]=O_SegmentCells_v6_Par_proc(Data);
 
-
-
-clear
-DirName='\\carbon.research.sickkids.ca\rkafri\OPRETTA\Operetta Processed OutPutFiles\Dataset_20171024_JS_p27_SERESULTS';
-FileName='SegPar_SegmentationParameters';
-load([DirName '\' FileName])
-[ResultTable]=O_SegmentCells_v6_Par_proc(Data);
-clear
-DirName='\\carbon.research.sickkids.ca\rkafri\OPRETTA\Operetta Processed OutPutFiles\Dataset_20171030_JS_cycD_SERESULTS';
-FileName='SegPar_SegmentationParameters';
-load([DirName '\' FileName])
-[ResultTable]=O_SegmentCells_v6_Par_proc(Data);
-clear
-DirName='\\carbon.research.sickkids.ca\rkafri\OPRETTA\Operetta Processed OutPutFiles\Dataset_20171030_JS_cycE_SERESULTS';
-FileName='SegPar_SegmentationParameters';
-load([DirName '\' FileName])
-[ResultTable]=O_SegmentCells_v6_Par_proc(Data);
-clear
-DirName='\\carbon.research.sickkids.ca\rkafri\OPRETTA\Operetta Processed OutPutFiles\Dataset_20171030_JS_p27_SERESULTS';
-FileName='SegPar_SegmentationParameters';
-load([DirName '\' FileName])  
-[ResultTable]=O_SegmentCells_v6_Par_proc(Data);
+% clear
+% DirName='\\carbon.research.sickkids.ca\rkafri\OPRETTA\Operetta Processed OutPutFiles\Dataset_20171024_JS_p27_SERESULTS';
+% FileName='SegPar_SegmentationParameters';
+% load([DirName '\' FileName])
+% [ResultTable]=O_SegmentCells_v6_Par_proc(Data);
+% clear
+% DirName='\\carbon.research.sickkids.ca\rkafri\OPRETTA\Operetta Processed OutPutFiles\Dataset_20171030_JS_cycD_SERESULTS';
+% FileName='SegPar_SegmentationParameters';
+% load([DirName '\' FileName])
+% [ResultTable]=O_SegmentCells_v6_Par_proc(Data);
+% clear
+% DirName='\\carbon.research.sickkids.ca\rkafri\OPRETTA\Operetta Processed OutPutFiles\Dataset_20171030_JS_cycE_SERESULTS';
+% FileName='SegPar_SegmentationParameters';
+% load([DirName '\' FileName])
+% [ResultTable]=O_SegmentCells_v6_Par_proc(Data);
+% clear
+% DirName='\\carbon.research.sickkids.ca\rkafri\OPRETTA\Operetta Processed OutPutFiles\Dataset_20171030_JS_p27_SERESULTS';
+% FileName='SegPar_SegmentationParameters';
+% load([DirName '\' FileName])  
+% [ResultTable]=O_SegmentCells_v6_Par_proc(Data);
 
 
 
