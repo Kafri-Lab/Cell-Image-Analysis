@@ -96,6 +96,6 @@ min_time = 1;
 max_time = 269;
 ImageIDs = Data.O.ImageIDs;
 rows=ismember(ImageIDs.Row, row) & ismember(ImageIDs.Column, column) & ismember(ImageIDs.Field,field) & ImageIDs.Time <= max_time & ImageIDs.Time >= min_time;
-Data.O.ImageIDs = Data.O.ImageIDs(1,:);
+Data.O.ImageIDs = Data.O.ImageIDs(rows,:);
 
 [ResultTable]=O_SegmentCells_v6(Data);

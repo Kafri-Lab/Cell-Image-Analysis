@@ -1,6 +1,6 @@
 function [T]=Saving_Boundaries(O,NumberOfCells)
-    Nucleus_ch=find(cell2mat(strfind(O.General_Thresholds.Label,'Nucleus')))
-    Cell_ch=find(cell2mat(strfind(O.General_Thresholds.Label,'Cell')))
+    Nucleus_ch=find(strcmp(O.General_Thresholds.Label,'Nucleus'));
+    Cell_ch=find(strcmp(O.General_Thresholds.Label,'Cell'));
     labelled_nuc = O.BW{Nucleus_ch};
     labelled_cyto = O.BW{Cell_ch};
 
