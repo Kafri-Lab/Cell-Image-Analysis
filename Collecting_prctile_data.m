@@ -42,19 +42,19 @@ CytoPixelValues = PixelValues';
 % Whole cell prctile values
 CellPrctileValues = [];
 for id=1:max(cell_labels(:))
-  CellPrctileValues(id,:) = prctile(CellPixelValues{id},[1 10 20 30 40 50 60 70 80 90 99]);
+  CellPrctileValues(id,:) = prctile(CellPixelValues{id},[0 10 20 30 40 50 60 70 80 90 100]);
 end
 
 % Nuc prctile values
 NucPrctileValues = [];
 for id=1:max(cell_labels(:))
-  NucPrctileValues(id,:) = prctile(NucPixelValues{id},[1 10 20 30 40 50 60 70 80 90 99]);
+  NucPrctileValues(id,:) = prctile(NucPixelValues{id},[0 10 20 30 40 50 60 70 80 90 100]);
 end
 
 % Cyto prctile values
 CytoPrctileValues = [];
 for id=1:max(cell_labels(:))
-  CytoPrctileValues(id,:) = prctile(CytoPixelValues{id},[1 10 20 30 40 50 60 70 80 90 99]);
+  CytoPrctileValues(id,:) = prctile(CytoPixelValues{id},[0 10 20 30 40 50 60 70 80 90 100]);
 end
 
 
