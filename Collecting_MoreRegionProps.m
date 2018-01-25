@@ -30,7 +30,7 @@ function [T]=CollectNucleusData(O,NumberOfCells)
   % Create a a map of ch_name --> channel_number for each known label
   channels = containers.Map();
   for i=1:length(known_labels)
-    ch_name = known_labels{1};
+    ch_name = known_labels{i};
     channels(ch_name)=find(cell2mat(strfind(O.General_Thresholds.Label,ch_name)));
   end
 
@@ -44,8 +44,15 @@ function [T]=CollectNucleusData(O,NumberOfCells)
     end
 
     Stats=regionprops(O.BW{ch_num},stats_per_label);
+    
+    if isempty(Stats)
+      T=table()  % if there are no cells to measure back off quickly
+      break
+    end
+
 
     % Calculate shape stats
+    T{:,[ch_abrv '_Area']}=cat(1,Stats.Area);
     T{:,[ch_abrv '_BoundingBox']}=cat(1,Stats.BoundingBox);
     T{:,[ch_abrv '_Centroid']}=cat(1,Stats.Centroid);
     T{:,[ch_abrv '_Eccentricity']}=cat(1,Stats.Eccentricity);
@@ -85,5 +92,5 @@ function [T]=CollectNucleusData(O,NumberOfCells)
     end
 
   end
-  uiei
+
 end

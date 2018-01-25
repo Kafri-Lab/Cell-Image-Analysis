@@ -79,6 +79,9 @@ for i=1:NumberOfImages
     %iterTable = segmentation results for one image
     %ImageID = one line of ImageIDs describing the current image
     iterTable=[ImageID(ones(size(iterTable,1),1),:) iterTable];
+    if isempty(iterTable)
+      continue
+    end
     ResultTable=[ResultTable ; iterTable];
     if mod(i,10)==0
         for k=1:size(O.General_Thresholds,1)

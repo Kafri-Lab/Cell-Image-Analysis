@@ -12,8 +12,11 @@ target_image = O.IM{Cell_ch};
 cell_labels = O.BW{Cell_ch};
 nuc_labels = O.BW{Nucleus_ch};
 
-cyto_labels = cell_labels;
-cyto_labels(nuc_labels>0)=0;
+% % COMMENTED OUT BECAUSE THIS SOMETIMES PRODUCES A DIFFERENT NUMBER OF RESULTS.
+% % There is a different number of cyto values than nuc or cell if nuc and cell
+% % are the same size. 
+% cyto_labels = cell_labels;
+% cyto_labels(nuc_labels>0)=0;
 
 % Whole cell pixel values
 cell_stats=regionprops(cell_labels,target_image,'PixelValues');
@@ -31,13 +34,13 @@ for id=1:max(nuc_labels(:))
 end
 NucPixelValues = PixelValues';
 
-% Cyto pixel values
-cyto_stats=regionprops(cyto_labels,target_image,'PixelValues');
-PixelValues = cell(1, length(cell_labels));
-for id=1:max(cyto_labels(:))
-  PixelValues{id} = cyto_stats(id).PixelValues;
-end
-CytoPixelValues = PixelValues';
+% % Cyto pixel values
+% cyto_stats=regionprops(cyto_labels,target_image,'PixelValues');
+% PixelValues = cell(1, length(cell_labels));
+% for id=1:max(cyto_labels(:))
+%   PixelValues{id} = cyto_stats(id).PixelValues;
+% end
+% CytoPixelValues = PixelValues';
 
 % Whole cell prctile values
 CellPrctileValues = [];
@@ -51,12 +54,13 @@ for id=1:max(cell_labels(:))
   NucPrctileValues(id,:) = prctile(NucPixelValues{id},[0 10 20 30 40 50 60 70 80 90 100]);
 end
 
-% Cyto prctile values
-CytoPrctileValues = [];
-for id=1:max(cell_labels(:))
-  CytoPrctileValues(id,:) = prctile(CytoPixelValues{id},[0 10 20 30 40 50 60 70 80 90 100]);
-end
+% % Cyto prctile values
+% CytoPrctileValues = [];
+% for id=1:max(cell_labels(:))
+%   CytoPrctileValues(id,:) = prctile(CytoPixelValues{id},[0 10 20 30 40 50 60 70 80 90 100]);
+% end
+% T=table(NucPrctileValues,CellPrctileValues,CytoPrctileValues);
 
 
-T=table(NucPrctileValues,CellPrctileValues,CytoPrctileValues);
+T=table(NucPrctileValues,CellPrctileValues);
 

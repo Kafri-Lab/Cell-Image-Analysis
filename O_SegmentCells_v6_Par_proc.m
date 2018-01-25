@@ -62,8 +62,10 @@ for iB=1:length(BreakPoints)-1
         t2=datetime;
         %     K=parfor_progress;
         [iterTable,ImageID]=O_SegmentCells_v6_SingleImage(Data.O,ImageIDs(i,:),t1,t2);
-        iterTable=[ImageID(ones(size(iterTable,1),1),:) iterTable];
-        ResultTable=[ResultTable ; iterTable];
+        if ~isempty(iterTable)
+          iterTable=[ImageID(ones(size(iterTable,1),1),:) iterTable];
+          ResultTable=[ResultTable ; iterTable];
+        end
     end
     toc
     save([Data.O.SegmentationParameters.OutputDir 'Dataset_' regexprep(Data.O.SegmentationParameters.DataSetName,'\W','_')  'RESULTS\ResultTable_BP' num2str(iB) '.mat'],'ResultTable');

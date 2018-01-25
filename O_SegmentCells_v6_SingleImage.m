@@ -153,7 +153,7 @@ if isfield(O,'Collecting_X_Data')
     iterTable=[iterTable T];
 end
 
-if isfield(O,'Collecting_More_Data')
+if isfield(O,'Collecting_More_Data') && NumberOfCells > 0
     for i=1:length(O.Collecting_More_Data)
         func_name = O.Collecting_More_Data{i};
         fprintf('Running %s...\n', func_name)
